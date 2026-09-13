@@ -17,9 +17,21 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
+
+        // Khai báo theo cấu trúc khoas chính -> khóa ngoại
+        $this->call([
+            // 1. Địa danh (Thành phố tạo trước, Phường/Xã tạo sau)
+            CitySeeder::class,
+            WardSeeder::class,
+
+            // 2. Người dùng
+            UserSeeder::class
+
+
         ]);
     }
 }

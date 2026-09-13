@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->text('name');
+            $table->string('cccd', 20)->nullable(); // Bổ sung CCCD
             $table->string('email')->unique();
+            $table->string('sdt', 20)->nullable();  // Bổ sung Số điện thoại
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('role', ['customer', 'admin', 'partner'])->default('customer'); // Bổ sung phân quyền Admin
+            // $table->
             $table->rememberToken();
             $table->timestamps();
         });
