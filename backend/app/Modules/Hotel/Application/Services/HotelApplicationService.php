@@ -3,6 +3,7 @@
 namespace App\Modules\Hotel\Application\Services;
 
 use App\Modules\Hotel\Application\DTOs\CreateHotelDTO;
+use App\Modules\Hotel\Application\DTOs\PaginationDTO;
 use App\Modules\Hotel\Domain\Entities\Hotel;
 use App\Modules\Hotel\Domain\Repositories\HotelRepositoryInterface;
 
@@ -28,5 +29,19 @@ class HotelApplicationService
         );
         // 2. Gọi Repository để lưu Entity xuống MySQL
         return $this->hotelRepository->save($hotel);
+    }
+
+    // Lấy danh sách khách sạn theo user_id
+    public function getHotelsByOwnerId(int $ownerId, PaginationDTO $dto): array
+    {
+        return $this->hotelRepository->getByOwnerId(
+            $ownerId,
+            (array) $dto
+        );
+    }
+
+    public function getList(PaginationDTO $dto): array
+    {
+        return $this->hotelRepository->list((array) $dto);
     }
 }

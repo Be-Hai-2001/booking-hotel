@@ -2,7 +2,7 @@
 
 namespace App\Modules\User\Infrastructure\Persistence\Models;
 
-use App\Modules\User\Domain\Enums\UserRoleEnum;
+use App\Modules\User\Domain\Enums\UserRole;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -18,7 +18,8 @@ final class UserModel extends Authenticatable
         'email',
         'sdt',
         'password',
-        'role'
+        'role',
+        'status'
     ];
 
     protected $hidden = [
@@ -27,6 +28,6 @@ final class UserModel extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'role' => UserRoleEnum::class,
+        'role' => UserRole::class,
     ];
 }

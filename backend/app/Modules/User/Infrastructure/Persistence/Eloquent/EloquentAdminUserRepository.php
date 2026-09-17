@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Modules\User\Infrastructure\Persistence\Eloquent;
 
 use App\Modules\User\Domain\Entities\User;
+use App\Modules\User\Domain\Enums\UserRole;
+use App\Modules\User\Domain\Enums\UserStatus;
 use App\Modules\User\Domain\Repositories\AdminUserRepositoryInterface;
 use App\Modules\User\Infrastructure\Persistence\Models\UserModel;
 
@@ -33,7 +35,8 @@ final class EloquentAdminUserRepository implements AdminUserRepositoryInterface
             email: $model->email,
             sdt: $model->sdt,
             password: $model->password,
-            role: $model->role,
+            role: is_string($model->role) ? UserRole::from($model->role) : $model->role,
+            status: is_string($model->status) ? UserStatus::from($model->status) : $model->status
         );
     }
 }

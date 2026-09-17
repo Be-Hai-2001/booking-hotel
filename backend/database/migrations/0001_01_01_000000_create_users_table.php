@@ -1,5 +1,7 @@
 <?php
 
+use App\Modules\User\Domain\Enums\UserRole;
+use App\Modules\User\Domain\Enums\UserStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,8 +21,8 @@ return new class extends Migration
             $table->string('sdt', 20)->nullable();  // Bổ sung Số điện thoại
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['customer', 'admin', 'partner'])->default('customer'); // Bổ sung phân quyền Admin
-            // $table->
+            $table->string('role', 20)->default(UserRole::PARTNER->value);
+            $table->string('status', 20)->default(UserStatus::PENDING->value);
             $table->rememberToken();
             $table->timestamps();
         });

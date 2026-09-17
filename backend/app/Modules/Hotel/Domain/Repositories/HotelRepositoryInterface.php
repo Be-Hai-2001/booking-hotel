@@ -29,10 +29,10 @@ interface HotelRepositoryInterface
     /**
      * Lấy danh sách khách sạn với phân trang
      */
-    // public function listHotels(int $page, int $limit): array;
+    public function list(array $filters): array;
 
     /**
      * Lấy danh sách khách sạn theo phân quyền chủ sở hữu
      */
-    // public function listHotelsAdmin(int $page, int $limit): array;
+    public function getByOwnerId(int $ownerId, array $filters): array;
 }

@@ -2,7 +2,8 @@
 
 namespace App\Modules\User\Domain\Entities;
 
-use App\Modules\User\Domain\Enums\UserRoleEnum;
+use App\Modules\User\Domain\Enums\UserRole;
+use App\Modules\User\Domain\Enums\UserStatus;
 
 class User
 {
@@ -13,19 +14,20 @@ class User
         public readonly ?string $email,
         public readonly string $sdt,
         public readonly string $password,
-        public readonly UserRoleEnum $role,
+        public readonly UserRole $role,
+        public readonly UserStatus $status
     ) {}
 
     // Kiểm tra có phải là admin || customer đăng nhập không
-    public function isStaff(): bool
-    {
-        $isCustomer = $this->role === UserRoleEnum::CUSTOMER;
+    // public function isStaff(): bool
+    // {
+    //     $isCustomer = $this->role === UserRole::CUSTOMER;
 
-        return $isCustomer;
-    }
+    //     return $isCustomer;
+    // }
 
-    public function hasRole(UserRoleEnum $role): bool
-    {
-        return $this->role === $role;
-    }
+    // public function hasRole(UserRole $role): bool
+    // {
+    //     return $this->role === $role;
+    // }
 }

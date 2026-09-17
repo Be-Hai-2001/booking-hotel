@@ -39,8 +39,7 @@ class UserSeeder extends Seeder
                 'email' => 'giahuy2001@gmail.com',
                 'sdt' => '0985023702',
                 'password' => Hash::make('123456789'),
-                'ro
-                le' => 'partner'
+                'role' => 'partner'
             ],
             [
                 'name' => 'Minh Ngọc',
@@ -48,7 +47,7 @@ class UserSeeder extends Seeder
                 'email' => 'minhngoc2000@gmail.com',
                 'sdt' => '0985023703',
                 'password' => Hash::make('Haiminh2@@1'),
-                'role' => 'admin'
+                'role' => 'partner'
             ]
         ];
 

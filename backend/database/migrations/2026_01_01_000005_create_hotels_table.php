@@ -1,5 +1,7 @@
 <?php
 
+use App\Modules\Hotel\Domain\Enums\HotelStatus;
+use App\Modules\User\Domain\Enums\UserRole;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -29,6 +31,8 @@ return new class extends Migration
             $table->decimal('ratingTB', 2, 1)->default(0);
             // Khác sạn nổi bậc hay không (do system admin edit => hiển thị lên view khách sạn nổi bậc)
             $table->tinyInteger('is_floating_hotel')->default(0);
+            $table->string('status', 20)->default(HotelStatus::ACTIVE->value);
+            $table->string('role', 20)->default(UserRole::PARTNER->value);
             $table->timestamps();
         });
     }

@@ -3,6 +3,7 @@
 namespace App\Modules\Hotel\Infrastructure\Persistence;
 
 use App\Modules\Hotel\Domain\Entities\Hotel;
+use App\Modules\Hotel\Domain\Enums\HotelStatus;
 use App\Modules\Hotel\Domain\Repositories\HotelRepositoryInterface;
 use App\Modules\Hotel\Infrastructure\Persistence\Models\HotelModel;
 use Override;
@@ -38,42 +39,23 @@ class EloquentHotelRepository implements HotelRepositoryInterface
         return HotelModel::query()->where('id', $id)->delete() > 0;
     }
 
-    // #[Override]
-    // public function listHotels(?array $filters = null): array
-    // {
-    //     $filters ??= [];
-    //     $query = HotelModel::query();
+    // Lấy danh sách khách sạn thuộc chủ sở hữu khách sạn theo Token user_id
+    #[Override]
+    public function getByOwnerId(int $ownerId, ?array $filters = null): array
+    {
+        $hotels = HotelModel::where('user_id', $ownerId)
+            ->whereNot('status', HotelStatus::INACTIVE->value)
+            ->get();
 
-    //     foreach ($filters as $field => $value) {
-    //         if ($value === null || $value === '') {
-    //             continue;
-    //         }
+        return $hotels->toArray();
+    }
 
-    //         if ($field === 'search') {
-    //             $query->where(function ($q) use ($value) {
-    //                 $q->where('hotel_name', 'like', "%{$value}%")
-    //                     ->orWhere('diaChiSnapshot', 'like', "%{$value}%")
-    //                     ->orWhere('diaChiChiTiet', 'like', "%{$value}%");
-    //             });
-    //             continue;
-    //         }
-
-    //         if (is_array($value)) {
-    //             $query->whereIn($field, $value);
-    //             continue;
-    //         }
-
-    //         $query->where($field, $value);
-    //     }
-
-    //     return $query->get()->map(fn(HotelModel $model) => $this->toEntity($model))->all();
-    // }
-
-    // #[Override]
-    // public function listHotelsAdmin(array $filters = []): array
-    // {
-    //     return $this->listHotels($filters);
-    // }
+    #[Override]
+    public function list(?array $filters = null): array
+    {
+        $hotels = HotelModel::whereNot('status', HotelStatus::INACTIVE->value)->get();
+        return $hotels->toArray();
+    }
 
     /**
      * Hàm tiện ích: Biến Eloquent Model thành Domain Entity

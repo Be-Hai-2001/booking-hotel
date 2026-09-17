@@ -26,8 +26,8 @@ final class AdminLoginService
             throw new RuntimeException('Email hoặc mật khẩu không đúng', 401);
 
         // User đăng nhậ[ với role là customer
-        if ($user->isStaff())
-            throw new DomainException('Tài khoản không có quyền truy cập', 403);
+        // if ($user->isStaff())
+        //     throw new DomainException('Tài khoản không có quyền truy cập', 403);
 
         // Mọi tài khoản staff (admin/partner) đều có ability chung 'panel-access',
         // riêng ability theo role dùng để phân quyền chi tiết ở từng endpoint.
