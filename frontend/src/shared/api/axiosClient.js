@@ -1,24 +1,35 @@
 import axios from 'axios';
 
-// Cấu hình đường dẫn gốc (code mặc định)
-
 export const axiosClient = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api/', // Đường dẫn gốc API Laravel
+  baseURL: 'http://127.0.0.1:8000/api/',
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   },
-  timeout: 10000, // (Tùy chọn) Ngắt kết nối nếu request quá 10 giây
+  timeout: 10000,
 });
 
-// Tự động đính kèm Token nếu có đăng nhập
+// Interceptor cho Request
 axiosClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    // Sửa lại thành 'access_token'
+    const token = localStorage.getItem('access_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
   (error) => Promise.reject(error)
+);
+
+// Interceptor cho Response (Tùy chọn nâng cao)
+axiosClient.interceptors.response.use(
+  (response) => response.data, // Tự bọc data trả về
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      // Nếu Token hết hạn hoặc không hợp lệ -> xóa token cũ
+      localStorage.removeItem('access_token');
+    }
+    return Promise.reject(error);
+  }
 );

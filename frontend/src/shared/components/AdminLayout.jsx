@@ -64,6 +64,7 @@ export const Sidebar = () => {
                 {
                     categories.map((category) => (
                         <Grid
+                            key={category.id}
                             sx={{
                                 display: 'flex',
                                 alignItems: 'center',

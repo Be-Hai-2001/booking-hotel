@@ -6,19 +6,25 @@ import { Box } from '@mui/material';
  * @prop 
  *  columns: Header name
  *      [
- *          field, headerName, width ,...
+ *          {field, headerName, width ,...}
  *      ]
  *  rows: Data của Header
  *      [
- *          field, ... field
+ *          {field, ... field}
  *      ]
  * @returns 
  */
 
-export const DataGrid = ({ rows = [], columns = [] }) => {
+export const DataGrid = ({ rows = [], columns = [], columnVisibilityModel, ...rest }) => {
     return (
         <Box sx={{ height: 400, width: '100%' }}>
-            <MuiDataGrid rows={rows} columns={columns} />
+            <MuiDataGrid
+
+                rows={rows}
+                columns={columns}
+                columnVisibilityModel={columnVisibilityModel}
+                {...rest}
+            />
         </Box>
     );
 };
