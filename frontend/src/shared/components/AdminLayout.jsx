@@ -8,19 +8,27 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PeopleIcon from '@mui/icons-material/People';
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { Avatar, Box, Divider, Grid, IconButton, Typography } from '@mui/material';
+import { Avatar, Box, Divider, Grid, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { lightBlue } from "@mui/material/colors";
 
 export const HEADER_HEIGHT = 80;
 
 // Thanh Sidebar bên trái
 export const Sidebar = () => {
+    // Đường dẫn link theo trang admin hoặc partner
+    const prefix = 'partner';
+
+    // Khai báo hook useNavigate
+    const navigate = useNavigate();
+
     // Danh mục chức năng của hệ quản trị trong hệ thống
-    const categories = [
-        { id: 'dashboard', name: 'Dashboard', icon: <DashboardIcon />, path: '/admin/dashboard' },
-        { id: 'hotel', name: 'Hotel', icon: <HotelIcon />, path: '/admin/hotels' },
-        { id: 'booking', name: 'Booking', icon: <BookOnlineIcon />, path: '/admin' },
-        { id: 'location', name: 'Location', icon: <LocationOnIcon />, path: '/admin' },
-        { id: 'users', name: 'Users', icon: <PeopleIcon />, path: '/admin' },
+    const menuItems = [
+        { id: 'dashboard', name: 'Dashboard', icon: <DashboardIcon />, path: `/${prefix}/dashboard` },
+        { id: 'hotel', name: 'Hotel', icon: <HotelIcon />, path: `/${prefix}/hotels` },
+        { id: 'booking', name: 'Booking', icon: <BookOnlineIcon />, path: `/${prefix}` },
+        { id: 'location', name: 'Location', icon: <LocationOnIcon />, path: `/${prefix}` },
+        { id: 'users', name: 'Users', icon: <PeopleIcon />, path: `/${prefix}` },
     ];
 
     return (
@@ -62,30 +70,39 @@ export const Sidebar = () => {
                 }}
             >
                 {
-                    categories.map((category) => (
-                        <Grid
-                            key={category.id}
-                            sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 2,                  // Khoảng cách giữa Icon và Text
-                                p: 1.25,                 // Padding bên trong từng dòng (khoảng bấm rộng hơn)
-                                borderRadius: 1.5,       // Bo tròn góc nhẹ cho hiện đại
-                                cursor: 'pointer',
-                                transition: 'all 0.2s',
-                                '&:hover': {
-                                    backgroundColor: 'rgba(255, 255, 255, 0.08)', // Hiệu ứng hover khi rê chuột
-                                },
-                                userSelect: 'none',
-                                fontWeight: 'bold'
-                            }}
-                        >
-                            <Grid> {category.icon} </Grid>
-                            <Grid>
-                                <Typography component="span" > {category.name} </Typography>
-                            </Grid>
-                        </Grid>
-                    ))
+                    <List>
+                        {
+                            menuItems.map((item) => (
+                                <ListItem disablePadding key={item.id}>
+                                    <ListItemButton
+                                        onClick={() => navigate(item.path)}
+                                        selected={location.pathname === item.path}
+                                        sx={{
+                                            borderRadius: 1.5,
+                                            // 1. Hover cho menu BÌNH THƯỜNG (khi chưa selected)
+                                            '&:hover': {
+                                                bgcolor: 'rgba(255, 255, 255, 0.08)', // hoặc màu bạn thích
+                                            },
+
+                                            // 2. Hover cho menu ĐANG ĐƯỢC CHỌN
+                                            '&.Mui-selected': {
+                                                color: '#fff',
+                                                '& .MuiListItemIcon-root': { color: '#fff' },
+                                                '&:hover': {
+                                                    bgcolor: '#1d4ed8',
+                                                },
+                                            },
+                                        }}
+                                    >
+                                        <ListItemIcon sx={{ color: 'lightBlue' }}>
+                                            {item.icon}
+                                        </ListItemIcon>
+                                        <ListItemText primary={item.name} />
+                                    </ListItemButton>
+                                </ListItem>
+                            ))
+                        }
+                    </List>
                 }
             </Grid >
 
@@ -104,7 +121,7 @@ export const Sidebar = () => {
                     }}
                 />
             </Grid >
-        </Grid>
+        </Grid >
     );
 };
 
