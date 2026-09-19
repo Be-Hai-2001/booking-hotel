@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('sdt', 20)->nullable();  // Bổ sung Số điện thoại
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('role', 20)->default(UserRole::PARTNER->value);
+            $table->string('role', 20)->default(UserRole::CUSTOMER->value);
             $table->string('status', 20)->default(UserStatus::PENDING->value);
             $table->rememberToken();
             $table->timestamps();

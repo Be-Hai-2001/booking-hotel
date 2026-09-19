@@ -17,6 +17,7 @@ final class AdminAuthController extends Controller
 {
     public function __construct(private readonly AdminLoginService $adminLoginService) {}
 
+    // Đăng nhập
     public function login(AdminLoginRequest $request): JsonResponse
     {
         $input = LoginUserAdminDTO::fromArray($request->validated());
