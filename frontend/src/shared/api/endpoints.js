@@ -21,9 +21,7 @@ export const API_ENDPOINTS = {
             DELETE: (id) => `/partner/hotels/${id}`, // DELETE: Xóa khách sạn
         },
 
-        DASHBOARD: {
-            STATS: '/partner/dashboard',
-        },
+        DASHBOARD: '/partner/dashboard',
 
     },
 

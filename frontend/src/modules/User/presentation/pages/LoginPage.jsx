@@ -1,54 +1,22 @@
 
-import React, { useEffect, useState } from "react";
-import { Box, Button, Grid, Stack, TextField, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import InputAdornment from '@mui/material/InputAdornment';
 import LockIcon from '@mui/icons-material/Lock';
-import authApi from "../../infrastructure/authApi";
-import authStorage from "../../infrastructure/storage/tokenStorage";
-import { UserRole } from "../../../../shared/constants/roles";
-import { Navigate } from "react-router-dom";
-import HotelsPartnerPage, { Hotels } from "../../../hotel/presentation/partner/HotelsPartnerPage";
-import { partnerRoutes } from "../../../../routes/partnerRoutes";
-import { API_ENDPOINTS } from "../../../../shared/api/endpoints";
+import useLogin from "../../application/useLogin";
 
 export const LoginPage = () => {
 
-    //Form đăng nhập
-    const [formData, setFormData] = useState({ login: '', password: '' });
+    const {
+        formData,
+        handleChange,
+        handleSubmit,
+        loading,
+        errorMsg
+    } = useLogin();
+
     const [focusedField, setFocusedField] = useState('');
-
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            // Gọi api đăng nhập user
-            const respon = await authApi.login(formData);
-            const { access_token, user } = respon.data;
-
-            // Lưu token và thông tin user trong localStorage
-            authStorage.setToken(access_token);
-            authStorage.setUser(user);
-
-            // Kiểm tra quyền user để navigate
-            if (user.role === UserRole.PARTNER)
-                return <Navigate to={API_ENDPOINTS.PARTNER.DASHBOARD} />
-
-            if (user.role === UserRole.ADMIN)
-                return <Navigate to={API_ENDPOINTS.ADMIN.DASHBOARD} />
-
-
-        } catch (error) {
-
-        }
-    }
 
     return (
         <Box
@@ -173,16 +141,12 @@ export const LoginPage = () => {
                         required
                     />
 
-                    <Stack
-                        spacing={1}
-                        justifyContent="center"
-                        sx={{ mt: 1 }}
-                    >
+                    <Stack>
                         <Button
                             type="submit"
                             variant="contained"
                             color="primary"
-                            fullWidth
+                            // fullWidth
                             size="large"
                             sx={{ mt: 1 }}
                             onClick={handleSubmit}

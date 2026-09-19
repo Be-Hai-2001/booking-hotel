@@ -1,8 +1,7 @@
 
-import { use, useEffect, useState } from 'react';
 import { AdminLayout } from '../../../../shared/components/AdminLayout';
 import { DataGrid } from '../../../../shared/components/DataGrid';
-import { hotelApi } from '../../infrastructure/hotelApi';
+import useHotels from '../../application/useHotels';
 
 const columns = [
     {
@@ -58,43 +57,24 @@ const columns = [
     },
 ];
 
-export const Hotels = () => {
-
-    const [hotels, setHotels] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchHotels = async () => {
-            setLoading(true);
-            try {
-                const response = await hotelApi.getMyHotels();
-                const hotelList = Array.isArray(response?.data)
-                    ? response.data
-                    : (Array.isArray(response) ? response : []);
-                setHotels(hotelList);
-            } catch (error) {
-                console.error('Lỗi khi tải danh sách khách sạn:', error);
-            } finally {
-                setLoading(!loading);
-            }
-        }
-
-        fetchHotels();
-    }, []);
+// Content UI danh sacch khach san
+const Hotels = () => {
+    const { hotels, loading } = useHotels();
 
     return (
-        <>
-            <DataGrid
-                columns={columns}
-                rows={hotels}
-                columnVisibilityModel={{
-                    ward_id: false
-                }}
-            />
-        </>
-    )
+        <DataGrid
+            columns={columns}
+            rows={hotels}
+            loading={loading}
+            columnVisibilityModel={{
+                ward_id: false
+            }}
+        />
+    );
 };
 
+
+// UI danh sach khach san
 export const HotelsPartnerPage = () => {
     return (
         <AdminLayout
