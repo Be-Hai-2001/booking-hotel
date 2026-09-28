@@ -19,16 +19,6 @@ class HotelController extends Controller
     ) {}
 
     /**
-     * UI trả về form thêm mới khách sạna   
-     * HTTP method: GET
-     */
-
-    public function create()
-    {
-        return view('hotel.create');
-    }
-
-    /**
      * Thêm mới khách sạn
      * @param StoreHotelRequest 
      * $request :
@@ -62,8 +52,9 @@ class HotelController extends Controller
             // 3. Gọi service để tạo khách sạn
             $hotel = $this->hotelService->createHotel($dto);
             // 4. Trả về phản hồi (response) cho client
+
             return response()->json([
-                'message' => 'Thêm mới khách sạn thành công!',
+                'message' => 'SUCCESS',
                 'hotel' => $hotel->toArray(),
             ], 201);
         } catch (\Throwable $th) {
@@ -92,6 +83,7 @@ class HotelController extends Controller
                 $userId,
                 $dto
             );
+
             return response()->json([
                 'success' => true,
                 'data' => $hotels

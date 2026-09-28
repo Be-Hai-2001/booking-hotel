@@ -3,6 +3,7 @@
 namespace App\Modules\Hotel\Domain\Repositories;
 
 use App\Modules\Hotel\Domain\Entities\Hotel;
+use App\Modules\Hotel\Domain\ValueObjects\HotelId;
 
 /*
 -> 1. Khai báo hợp đồng: Nhận vào các dữ liệu dạng mảng hoặc Entity và trả về Hotel Entity đã lưu
@@ -14,7 +15,7 @@ interface HotelRepositoryInterface
     /**
      * Tìm khách sạn theo ID
      */
-    public function findById(int $id): ?Hotel;
+    public function findById(HotelId $id): ?Hotel;
 
     /**
      * Lưu thông tin khách sạn (Tự động chèn mới nếu chưa có ID, hoặc cập nhật nếu đã có ID)
@@ -24,7 +25,7 @@ interface HotelRepositoryInterface
     /**
      * Xóa khách sạn theo ID
      */
-    public function delete(int $id): bool;
+    public function delete(HotelId $id): bool;
 
     /**
      * Lấy danh sách khách sạn với phân trang

@@ -2,7 +2,10 @@
 
 namespace App\Modules\Hotel\Domain\Entities;
 
+use App\Modules\Hotel\Domain\Enums\HotelStatus;
 use InvalidArgumentException;
+
+use function PHPUnit\Framework\isString;
 
 /*
 -> Nơi khai báo tất cả các thuộc tính thuộc hotel, là đại diện cho đối tượng khách sạn 
@@ -15,11 +18,12 @@ class Hotel
         private int $userId,
         private int $wardId,
         private string $hotelName,
-        private string $diaChiSnapshot,
+        private ?string $diaChiSnapshot = null,
         private ?string $diaChiChiTiet = null,
         private ?string $sdt = null,
         private float $ratingTB = 0.0,
-        private bool $isFloatingHotel = false
+        private bool $isFloatingHotel = false,
+        private HotelStatus $status = HotelStatus::PENDING
     ) {
         // Validation nghiệp vụ: Đảm bảo dữ liệu Entity luôn hợp lệ ngay từ lúc tạo bất kể nhận từ đâu (Request, Queue Job, Command, Seeder)
         if (empty(trim($this->hotelName))) {
@@ -78,6 +82,8 @@ class Hotel
             'sdt'               => $this->sdt,
             'ratingTB'          => $this->ratingTB,
             'is_floating_hotel' => $this->isFloatingHotel,
+            'status'            => is_string($this->status) ? $this->status : $this->status->value,
+            'status_label'      => $this->status->label(),
         ];
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Modules\Hotel\Domain\Enums;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 enum HotelStatus: string
 {
     case PENDING = 'pending'; // Chờ duyệt

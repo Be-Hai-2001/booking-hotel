@@ -5,13 +5,14 @@ namespace App\Modules\Hotel\Infrastructure\Persistence;
 use App\Modules\Hotel\Domain\Entities\Hotel;
 use App\Modules\Hotel\Domain\Enums\HotelStatus;
 use App\Modules\Hotel\Domain\Repositories\HotelRepositoryInterface;
+use App\Modules\Hotel\Domain\ValueObjects\HotelId;
 use App\Modules\Hotel\Infrastructure\Persistence\Models\HotelModel;
 use Override;
 
 class EloquentHotelRepository implements HotelRepositoryInterface
 {
     #[Override]
-    public function findById(int $id): ?Hotel
+    public function findById(HotelId $id): ?Hotel
     {
         $model = HotelModel::query()->find($id);
 
@@ -23,7 +24,6 @@ class EloquentHotelRepository implements HotelRepositoryInterface
     {
         // 1. Chuyển Entity thành mảng
         $data = $hotel->toArray();
-
         // 2. Insert nếu chưa có ID, Update nếu đã có ID
         $model = HotelModel::updateOrCreate(
             ['id' => $hotel->getId()],
@@ -34,7 +34,7 @@ class EloquentHotelRepository implements HotelRepositoryInterface
     }
 
     #[Override]
-    public function delete(int $id): bool
+    public function delete(HotelId $id): bool
     {
         return HotelModel::query()->where('id', $id)->delete() > 0;
     }

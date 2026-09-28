@@ -32,7 +32,6 @@ return new class extends Migration
             // Khác sạn nổi bậc hay không (do system admin edit => hiển thị lên view khách sạn nổi bậc)
             $table->tinyInteger('is_floating_hotel')->default(0);
             $table->string('status', 20)->default(HotelStatus::ACTIVE->value);
-            $table->string('role', 20)->default(UserRole::PARTNER->value);
             $table->timestamps();
         });
     }

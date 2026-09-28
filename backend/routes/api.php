@@ -2,6 +2,8 @@
 
 use App\Modules\Dashboard\Presentation\Http\Controllers\DashboardController;
 use App\Modules\Hotel\Presentation\Controller\HotelController;
+use App\Modules\Location\Presentation\Controllers\CityController;
+use App\Modules\Location\Presentation\Controllers\WardController;
 use App\Modules\User\Presentation\Http\Controllers\Admin\AdminAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,7 +18,6 @@ Route::prefix('dashboard')->group(function () {
 });
 
 // Endpoint cho Module Hotel
-Route::get('/admin/hotels/create', [HotelController::class, 'create'])->name('hotels.create');
 Route::get('/hotels', [HotelController::class, 'list'])->name('hotels.list');
 
 // Admin
@@ -28,7 +29,11 @@ Route::prefix('partner')->group(function () {
         Route::post('/logout', [AdminAuthController::class, 'logout']);
         Route::get('/me', [AdminAuthController::class, 'me']);
 
-        Route::post('/hotels', [HotelController::class, 'store'])->name('hotels.store');
+        Route::post('/hotel', [HotelController::class, 'store'])->name('hotels.store');
         Route::get('/hotels', [HotelController::class, 'getMyHotels'])->name('hotels.hotels');
     });
 });
+
+// route public
+Route::get('/location/cities', [CityController::class, 'list']);
+Route::get('/location/wards/{city_id}', [WardController::class, 'getListByCityId']);
