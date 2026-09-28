@@ -2,6 +2,23 @@
 import { AdminLayout } from '../../../../shared/components/AdminLayout';
 import { DataGrid } from '../../../../shared/components/DataGrid';
 import useHotels from '../../application/useHotels';
+import { hotelEnums } from '../constants/hotelEnums';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import BuildIcon from '@mui/icons-material/Build';
+import { Box, Chip } from '@mui/material';
+import AddButton from '../../../../shared/components/AddButton';
+import { useNavigate } from 'react-router-dom';
+import hotelApi from '../../infrastructure/hotelApi';
+import { ROUTE } from '../../../../shared/api/route';
+
+const STATUS_CONFIG = {
+    [hotelEnums.STATUS.PENDING]: { color: 'warning', icon: <HourglassEmptyIcon /> },
+    [hotelEnums.STATUS.ACTIVE]: { color: 'success', icon: <CheckCircleIcon /> },
+    [hotelEnums.STATUS.INACTIVE]: { color: 'error', icon: <CancelIcon /> },
+    [hotelEnums.STATUS.MAINTENANCE]: { color: 'info', icon: <BuildIcon /> },
+};
 
 const columns = [
     {
@@ -42,11 +59,26 @@ const columns = [
     {
         field: 'status',
         headerName: 'Trạng thái',
-        width: 120,
-        // (Tùy chọn) Render trạng thái dạng Badge/Label cho đẹp
-        renderCell: (params) => (
-            params.value === 'active' ? 'Hoạt động' : 'Tạm dừng'
-        )
+        width: 160,
+        renderCell: (params) => {
+            const config = STATUS_CONFIG[params.value] ?? { color: 'default', icon: undefined };
+
+            return (
+                <Chip
+                    icon={config.icon}
+                    label={params.row.status_label ?? params.value}
+                    color={config.color}
+                    variant="outlined"
+                    size="small"
+                />
+            );
+        },
+    },
+    {
+        field: '',
+        headerName: 'Thao tác',
+        flex: 1.5,
+        minWidth: 180
     },
     // Khai báo ward_id để DataGrid quản lý dữ liệu
     {
@@ -57,19 +89,51 @@ const columns = [
     },
 ];
 
+
 // Content UI danh sacch khach san
 const Hotels = () => {
+
+    const navigate = useNavigate();
     const { hotels, loading } = useHotels();
 
     return (
-        <DataGrid
-            columns={columns}
-            rows={hotels}
-            loading={loading}
-            columnVisibilityModel={{
-                ward_id: false
-            }}
-        />
+        <>
+            <Box sx={{ textAlign: 'end', marginBottom: '15px' }}>
+                <AddButton
+                    handleClick={() => { navigate(ROUTE.PARTNER.HOTEL.CREATE) }}
+                />
+            </Box>
+            <DataGrid
+                columns={columns}
+                rows={hotels}
+                loading={loading}
+                columnVisibilityModel={{
+                    ward_id: false
+                }}
+                sx={{
+                    '& .MuiDataGrid-columnHeader': {
+                        backgroundColor: '#334155',
+                        color: '#fff',
+                    },
+                    '& .MuiDataGrid-columnHeaderTitle': {
+                        color: '#fff',
+                        fontWeight: 700,
+                    },
+
+                    // nút sắp xếp + nút 3 chấm: nền trong suốt, icon trắng
+                    '& .MuiDataGrid-columnHeader .MuiIconButton-root': {
+                        backgroundColor: 'transparent',
+                        color: '#fff',
+                    },
+                    '& .MuiDataGrid-columnHeader .MuiIconButton-root:hover': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                    },
+                    '& .MuiDataGrid-columnHeader .MuiSvgIcon-root': {
+                        color: '#fff',
+                    },
+                }}
+            />
+        </>
     );
 };
 

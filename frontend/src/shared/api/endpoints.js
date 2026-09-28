@@ -4,6 +4,10 @@ export const API_ENDPOINTS = {
         STATS: '/dashboard/stats',
     },
 
+    PUBLIC: {
+        CITIES: '/location/cities',
+        WARDS_BYCITY_ID: (city_id) => `/location/wards/${city_id}`
+    },
 
     // Partner
     PARTNER: {
@@ -14,11 +18,11 @@ export const API_ENDPOINTS = {
         },
 
         HOTEL: {
-            LIST: '/partner/hotels',                 // GET: Lấy danh sách khách sạn của partner
-            CREATE: '/partner/hotels',               // POST: Tạo mới khách sạn
-            DETAIL: (id) => `/partner/hotels/${id}`, // GET: Xem chi tiết
-            UPDATE: (id) => `/partner/hotels/${id}`, // PUT/PATCH: Cập nhật
-            DELETE: (id) => `/partner/hotels/${id}`, // DELETE: Xóa khách sạn
+            LIST: '/partner/hotels',                // GET: Lấy danh sách khách sạn của partner
+            CREATE: '/partner/hotel',               // POST: Tạo mới khách sạn
+            DETAIL: (id) => `/partner/hotel/${id}`, // GET: Xem chi tiết
+            UPDATE: (id) => `/partner/hotel/${id}`, // PUT/PATCH: Cập nhật
+            DELETE: (id) => `/partner/hotel/${id}`, // DELETE: Xóa khách sạn
         },
 
         DASHBOARD: '/partner/dashboard',

@@ -13,11 +13,13 @@ export const hotelApi = {
     },
 
     // Thêm mới khách sạn
-    createHotel: async () => {
-        return await axiosClient.post(API_ENDPOINTS.HOTELS.CREATE);
+    createHotel: async (data) => {
+        return await axiosClient.post(API_ENDPOINTS.PARTNER.HOTEL.CREATE, data);
     },
 
     // Cập nhật khách sạn
 
     // Xóa khách sạn
 }
+
+export default hotelApi;

@@ -19,7 +19,6 @@ export const DataGrid = ({ rows = [], columns = [], columnVisibilityModel, ...re
     return (
         <Box sx={{ height: 400, width: '100%' }}>
             <MuiDataGrid
-
                 rows={rows}
                 columns={columns}
                 columnVisibilityModel={columnVisibilityModel}

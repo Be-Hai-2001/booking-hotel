@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { authApi } from '../infrastructure/authApi';
 import authStorage from "../infrastructure/storage/tokenStorage";
 import { UserRole } from "../../../shared/constants/roles";
-import { API_ENDPOINTS } from "../../../shared/api/endpoints";
+import { ROUTE } from "../../../shared/api/route";
 
 export const useLogin = () => {
     // Khai báo hook useNavigate
@@ -24,6 +24,7 @@ export const useLogin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
+
         try {
             // Gọi api đăng nhập user
             const respon = await authApi.login(formData);
@@ -35,12 +36,10 @@ export const useLogin = () => {
 
             // Kiểm tra quyền user để navigate
             if (user.role === UserRole.PARTNER)
-                // console.log(API_ENDPOINTS.PARTNER.DASHBOARD)
-                return navigate(API_ENDPOINTS.PARTNER.DASHBOARD);
+                return navigate(ROUTE.PARTNER.DASHBOARD);
 
             if (user.role === UserRole.ADMIN)
-                return navigate(API_ENDPOINTS.ADMIN.DASHBOARD);
-
+                return navigate(ROUTE.ADMIN.DASHBOARD);
 
         } catch (error) {
 
