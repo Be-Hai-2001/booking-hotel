@@ -8,19 +8,25 @@ use App\Modules\User\Presentation\Http\Controllers\Admin\AdminAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+// -- 1. API xem tài khoản đăng nhập 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-// Endpoint dashboard
+
+// -- api dùng chung (public)
 Route::prefix('dashboard')->group(function () {
     Route::get('/stats', [DashboardController::class, 'stats']);
 });
 
-// Endpoint cho Module Hotel
-Route::get('/hotels', [HotelController::class, 'list'])->name('hotels.list');
+// -- KHÁCH SẠN
+Route::prefix('hotels')->group(function () {
+    Route::get('/', [HotelController::class, 'list'])->name('hotels.list');
+    Route::get('/{hotel_id}', [HotelController::class, 'show'])->name('hotels.detail');
+});
 
-// Admin
+
+// -- api cho PARTNER
 Route::prefix('partner')->group(function () {
     Route::post('/login', [AdminAuthController::class, 'login']);
 
@@ -29,8 +35,17 @@ Route::prefix('partner')->group(function () {
         Route::post('/logout', [AdminAuthController::class, 'logout']);
         Route::get('/me', [AdminAuthController::class, 'me']);
 
-        Route::post('/hotel', [HotelController::class, 'store'])->name('hotels.store');
-        Route::get('/hotels', [HotelController::class, 'getMyHotels'])->name('hotels.hotels');
+        // Route::post('/hotel', [HotelController::class, 'store'])->name('hotels.store');
+        // Route::get('/hotels', [HotelController::class, 'getMyHotels'])->name('hotels.hotels');
+
+        // Quản lý Khách sạn (Partner)
+        Route::prefix('hotels')->name('hotels.')->group(function () {
+            Route::get('/', [HotelController::class, 'getMyHotels'])->name('index'); // partner/hotels
+            Route::post('/', [HotelController::class, 'store'])->name('store');       // partner/hotels
+            Route::get('/{id}', [HotelController::class, 'show'])->name('show');       // partner/hotels/{id}
+            Route::put('/{id}', [HotelController::class, 'update'])->name('update');   // partner/hotels/{id}
+            Route::delete('/{id}', [HotelController::class, 'destroy'])->name('destroy'); // partner/hotels/{id}
+        });
     });
 });
 

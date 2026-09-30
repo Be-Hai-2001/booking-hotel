@@ -23,6 +23,11 @@ interface HotelRepositoryInterface
     public function save(Hotel $hotel): Hotel;
 
     /**
+     * Cập nhật khách sạn theo ID
+     */
+    // public function update(Hotel $hotel): Hotel;
+
+    /**
      * Xóa khách sạn theo ID
      */
     public function delete(HotelId $id): bool;
@@ -36,4 +41,10 @@ interface HotelRepositoryInterface
      * Lấy danh sách khách sạn theo phân quyền chủ sở hữu
      */
     public function getByOwnerId(int $ownerId, array $filters): array;
+
+
+    /**
+     * Lấy danh sách khách sạn theo phân quyền chủ sở hữu
+     */
+    public function getById(HotelId $id);
 }

@@ -17,10 +17,8 @@ return new class extends Migration
         Schema::create('hotels', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-
             // Ward thuộc Module Location -> Không nên Cascade Delete!
             $table->foreignId('ward_id')->constrained('wards')->restrictOnDelete();
-
             $table->text('hotel_name');
             // Do admin khách sạn nhập: Mục đích để hiển thị thêm chú thích nếu cần
             $table->text('diaChiChiTiet')->nullable();
@@ -33,6 +31,7 @@ return new class extends Migration
             $table->tinyInteger('is_floating_hotel')->default(0);
             $table->string('status', 20)->default(HotelStatus::ACTIVE->value);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

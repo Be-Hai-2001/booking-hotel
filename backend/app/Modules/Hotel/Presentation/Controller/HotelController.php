@@ -5,7 +5,10 @@ namespace App\Modules\Hotel\Presentation\Controller;
 use App\Http\Controllers\Controller;
 use App\Modules\Hotel\Application\DTOs\CreateHotelDTO;
 use App\Modules\Hotel\Application\DTOs\PaginationDTO;
+use App\Modules\Hotel\Application\DTOs\UpdateHotelDTO;
 use App\Modules\Hotel\Application\Services\HotelApplicationService;
+use App\Modules\Hotel\Domain\Entities\Hotel;
+use App\Modules\Hotel\Domain\ValueObjects\HotelId;
 use App\Modules\Hotel\Presentation\Http\Requests\StoreHotelRequest;
 use App\Modules\User\Domain\Enums\UserRole;
 use Exception;
@@ -40,8 +43,8 @@ class HotelController extends Controller
             // 1. Lấy user ID của người dùng đang đăng nhập từ Auth
             $userId = $request->user()->id;
 
-            if ($request->user()->role->value !== UserRole::PARTNER->value)
-                throw new \RuntimeException('User không có quyền thao tác');
+            // if ($request->user()->role->value !== UserRole::PARTNER->value)
+            //     throw new \RuntimeException('User không có quyền thao tác');
 
             // 2. Chuyển đổi dữ liệu từ request sang DTO
             $dto = CreateHotelDTO::fromRequest(
@@ -106,5 +109,50 @@ class HotelController extends Controller
             'success' => true,
             'data' => $hotels
         ], 200);
+    }
+
+    // -- Lấy thông tin khách sạn theo id khách sạn
+    public function show(Request $request, int $id)
+    {
+        $hotelId = new HotelId($id);
+
+        try {
+            $hotel = $this->hotelService->getHotelById($hotelId);
+
+            return response()->json([
+                'success' => true,
+                'data' => $hotel
+            ], 200);
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+    // -- Cập nhật thông tin khách sạn
+    public function update(StoreHotelRequest $request, int $id)
+    {
+        try {
+            $dto = UpdateHotelDTO::fromRequest($request->toArray(), new HotelId($id));
+
+            $hotel = $this->hotelService->updateHotel($dto);
+            return response()->json([
+                'success' => true,
+                'data' => $hotel->toArray()
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function destroy(Request $request, int $id)
+    {
+        $status = $this->hotelService->deleteHotel(new HotelId($id));
+
+        return response()->json([
+            'success' => $status
+        ], 204);
     }
 }

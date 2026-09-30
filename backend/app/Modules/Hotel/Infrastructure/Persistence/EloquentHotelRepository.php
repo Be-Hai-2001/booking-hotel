@@ -36,15 +36,15 @@ class EloquentHotelRepository implements HotelRepositoryInterface
     #[Override]
     public function delete(HotelId $id): bool
     {
-        return HotelModel::query()->where('id', $id)->delete() > 0;
+        return HotelModel::findOrFail($id->value())->delete();
     }
 
-    // Lấy danh sách khách sạn thuộc chủ sở hữu khách sạn theo Token user_id
+    // -- Lấy danh sách khách sạn thuộc chủ sở hữu khách sạn theo Token user_id
     #[Override]
     public function getByOwnerId(int $ownerId, ?array $filters = null): array
     {
         $hotels = HotelModel::where('user_id', $ownerId)
-            ->whereNot('status', HotelStatus::INACTIVE->value)
+            // ->whereNot('status', HotelStatus::INACTIVE->value)
             ->get();
 
         return $hotels->toArray();
@@ -53,8 +53,15 @@ class EloquentHotelRepository implements HotelRepositoryInterface
     #[Override]
     public function list(?array $filters = null): array
     {
-        $hotels = HotelModel::whereNot('status', HotelStatus::INACTIVE->value)->get();
+        $hotels = HotelModel::all();
         return $hotels->toArray();
+    }
+
+    // -- Lấy thông tin khách sạn theo khóa chính
+    #[Override]
+    public function getById(HotelId $id)
+    {
+        return HotelModel::with('images')->find($id->value())->toArray();
     }
 
     /**

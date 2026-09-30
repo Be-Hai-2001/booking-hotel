@@ -23,12 +23,12 @@ class StoreHotelRequest extends FormRequest
             'is_floating_hotel' => 'nullable|boolean',
             'sdt' => 'required|string|max:20',
             // 'ward_id' => 'required|integer|exists:wards,id',
-            'ward_id'  => [
+            'ward_id' => [
                 'required',
                 'integer',
-                Rule::unique('hotels', 'ward_id')->where(function ($query) {
-                    return $query->where('ward_id', request('ward_id'));
-                }),
+                Rule::unique('hotels', 'ward_id')
+                    ->where(fn($q) => $q->where('diaChiChiTiet', $this->input('diaChiChiTiet')))
+                    ->ignore($this->route('id')),
             ],
             'diaChiChiTiet' => [
                 'required',

@@ -5,6 +5,8 @@ namespace App\Modules\Hotel\Infrastructure\Persistence\Models;
 use App\Modules\Hotel\Domain\Enums\HotelStatus;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /*
 -> Nơi định nghĩa giao tiếp với các row trong database
@@ -12,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class HotelModel extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'hotels';
 
     protected $fillable = [
@@ -38,5 +42,17 @@ class HotelModel extends Model
     protected function statusLabel(): Attribute
     {
         return Attribute::get(fn() => $this->status->label());
+    }
+
+    // -- RelationShip hotel - hotelImage
+    public function images(): HasMany
+    {
+        return $this->hasMany(HotelImageModel::class, 'hotel_id', 'id');
+    }
+
+    // -- RelationShip hotel - roomtype
+    public function roomTypes(): HasMany
+    {
+        return $this->hasMany(RoomTypeModel::class, 'hotel_id', 'id');
     }
 }
