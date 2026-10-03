@@ -10,7 +10,7 @@ export const ImagesForm = ({
     images = []
 }) => {
     return (
-        <Paper Paper
+        <Paper
             sx={sx}
         >
             <Box>
