@@ -4,21 +4,21 @@ import AddIcon from '@mui/icons-material/Add';
 
 export const AddButton = ({
     handleClick,
+    loading = false,
     endIcon = <AddIcon />,
     size = 'large',
     variant = 'contained',
     loadingPosition = 'end',
-    loading,
     sx = {
-        background: '#D9D9D9',
-        color: 'darkblue',
-        borderRadius: '0'
+        borderRadius: '0',
+        fontWeight: 'bold'
     },
     content = 'Thêm mới'
 }) => {
 
     return (
         <Button
+            color="primary"
             onClick={handleClick}
             endIcon={endIcon}
             loading={loading}

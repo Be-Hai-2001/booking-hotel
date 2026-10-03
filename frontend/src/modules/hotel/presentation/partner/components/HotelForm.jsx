@@ -3,15 +3,18 @@ import React from "react";
 import AutocompleteCustom from "../../../../../shared/components/AutocompleteCustom"
 
 export const HotelForm = ({
-    action,
     fields = [],
     formData,
-    cityList,
-    wardList,
+    cityList = [],
+    wardList = [],
     fetchWards,
     handleChange,
-    handleAutocompleteChange
+    handleAutocompleteChange,
+    ward = {},
+    buttonSubmit = <></>,
+    sxButton = { textAlign: "end" }
 }) => {
+
     return (
         <Box>
             <Paper
@@ -60,18 +63,22 @@ export const HotelForm = ({
                                                 name === 'city_id'
                                                     ?
                                                     <AutocompleteCustom
+                                                        value={
+                                                            cityList.find((c) => c.id === (formData?.city_id || ward?.city_id)) ??
+                                                            ward?.city ??
+                                                            null
+                                                            // ward?.city?.id
+                                                            // cityList.find((item) => item.id === formData?.city_id) ?? null
+                                                        }
                                                         onChange={(event, newValue) => {
                                                             handleAutocompleteChange('city_id', newValue?.id ?? '');
                                                             handleAutocompleteChange('ward_id', '');   // reset ward khi đổi city
+                                                            // handleAutocompleteChange('ward', null);
                                                             fetchWards(newValue?.id);
                                                         }}
                                                         options={cityList}
-                                                        getOptionLabel={
-                                                            (option) => option.name
-                                                        }
-                                                        isOptionEqualToValue={
-                                                            (option, value) => option.id === value.id
-                                                        }
+                                                        getOptionLabel={(option) => (option && option.name) ? option.name : ''}
+                                                        isOptionEqualToValue={(option, value) => option?.id === value?.id}
                                                         sx={{
                                                             '& .MuiOutlinedInput-root': {
                                                                 paddingTop: '0px',
@@ -83,13 +90,22 @@ export const HotelForm = ({
                                                     :
                                                     <>
                                                         <AutocompleteCustom
-                                                            key={formData.city_id || 'no-city'}
+                                                            key={formData?.city_id || 'no-city'}
                                                             onChange={
                                                                 (event, newValue) => handleAutocompleteChange('ward_id', newValue?.id ?? '')
                                                             }
+                                                            // value={ward}
                                                             options={wardList}
-                                                            getOptionLabel={(option) => option.name}
-                                                            value={wardList.find((w) => w.id === formData.ward_id) ?? null}
+                                                            // getOptionLabel={(option) => option.name}
+                                                            // value={wardList.find((w) => w.id === formData.ward_id) ?? null}
+
+                                                            value={
+                                                                wardList.find((w) => w.id === formData?.ward_id) ??
+                                                                ward ??
+                                                                null
+                                                            }
+                                                            getOptionLabel={(option) => (option && option.name) ? option.name : ''}
+                                                            isOptionEqualToValue={(option, value) => option?.id === value?.id}
                                                             sx={{
                                                                 '& .MuiOutlinedInput-root': {
                                                                     paddingTop: '0px',
@@ -121,6 +137,7 @@ export const HotelForm = ({
                                                     borderRadius: 0
                                                 },
                                             }}
+                                            value={formData[name] ?? ''}
                                             type={type}
                                         />
                                 }
@@ -128,6 +145,13 @@ export const HotelForm = ({
                         </Grid>
                     ))
                 }
+                <Box
+                    sx={sxButton}
+                >
+                    {
+                        buttonSubmit
+                    }
+                </Box>
             </Paper>
         </Box >
     );

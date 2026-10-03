@@ -5,6 +5,7 @@ namespace App\Modules\Location\Presentation\Controllers;
 use App\Http\Controllers\Controller;
 use App\Modules\Location\Application\Services\WardApplicationService;
 use App\Modules\Location\Domain\ValueObjects\CityId;
+use App\Modules\Location\Domain\ValueObjects\WardId;
 use Illuminate\Http\Request;
 
 class WardController extends Controller
@@ -33,6 +34,22 @@ class WardController extends Controller
             return response()->json([
                 'message' => 'Đã có lỗi hệ thống xảy ra.',
                 'error'   => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getListByWardId(Request $request)
+    {
+        try {
+            $wards = $this->WardApplicationService->detail(new WardId($request->ward_id));
+
+            return response()->json([
+                'success' => true,
+                'data' => $wards
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
             ], 500);
         }
     }

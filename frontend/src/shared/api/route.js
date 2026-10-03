@@ -21,8 +21,8 @@ export const ROUTE = {
         HOTEL: {
             LIST: '/partner/hotels',
             CREATE: '/partner/hotels/create',
-            DETAIL: (id) => `/partner/hotel/${id}`,
-            UPDATE: (id) => `/partner/hotel/${id}`,
+            INFO: (id) => `/partner/hotel/detail/${id}`,
+            EDIT: (id) => `/partner/hotel/edit/${id}`,
             DELETE: (id) => `/partner/hotel/${id}`,
         },
 

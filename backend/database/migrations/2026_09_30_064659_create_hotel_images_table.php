@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('hotel_id')->constrained('hotels')->cascadeOnDelete();
             $table->longText('image_path');                 // Đường dẫn / URL hình ảnh
             $table->integer('sort_order')->default(0);  // Thứ tự hiển thị hình ảnh
+            $table->boolean('is_cover')->default(false);
             $table->timestamps();
         });
     }

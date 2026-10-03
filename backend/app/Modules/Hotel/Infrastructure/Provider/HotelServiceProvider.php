@@ -3,8 +3,10 @@
 namespace App\Modules\Hotel\Infrastructure\Provider;
 
 use App\Modules\Hotel\Application\Contracts\LocationGateway;
+use App\Modules\Hotel\Domain\Repositories\HotelImageRepositoryInterface;
 use App\Modules\Hotel\Domain\Repositories\HotelRepositoryInterface;
 use App\Modules\Hotel\Infrastructure\Gateways\LocalDbLocationGateway;
+use App\Modules\Hotel\Infrastructure\Persistence\EloquentHotelImageRepository;
 use App\Modules\Hotel\Infrastructure\Persistence\EloquentHotelRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,6 +26,11 @@ class HotelServiceProvider extends ServiceProvider
         $this->app->bind(
             LocationGateway::class,
             LocalDbLocationGateway::class
+        );
+
+        $this->app->bind(
+            HotelImageRepositoryInterface::class,
+            EloquentHotelImageRepository::class
         );
     }
 

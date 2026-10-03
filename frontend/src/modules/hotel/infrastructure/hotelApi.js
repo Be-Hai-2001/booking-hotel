@@ -12,12 +12,19 @@ export const hotelApi = {
         return await axiosClient.get(API_ENDPOINTS.PARTNER.HOTEL.LIST);
     },
 
+    getHotelById: async (hotel_id) => {
+        return await axiosClient.get(API_ENDPOINTS.PUBLIC.HOTEL.DETAIL(hotel_id));
+    },
+
     // Thêm mới khách sạn
-    createHotel: async (data) => {
+    store: async (data) => {
         return await axiosClient.post(API_ENDPOINTS.PARTNER.HOTEL.CREATE, data);
     },
 
     // Cập nhật khách sạn
+    update: async (hotel_id, data) => {
+        return await axiosClient.put(API_ENDPOINTS.PARTNER.HOTEL.UPDATE(hotel_id), data);
+    }
 
     // Xóa khách sạn
 }

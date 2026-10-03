@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import HotelForm from "./components/HotelForm";
 import { AdminLayout } from "../../../../shared/components/AdminLayout";
 import useCreateHotel from "../../application/useCreateHotel";

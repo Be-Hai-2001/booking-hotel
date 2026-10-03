@@ -3,6 +3,7 @@
 namespace App\Modules\Location\Infrastructure\Persistence\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class WardModel extends Model
 {
@@ -15,4 +16,10 @@ class WardModel extends Model
         'valid_from',
         'status'
     ];
+
+    // -- RelationShip ward - city
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(CityModel::class, 'city_id', 'id');
+    }
 }

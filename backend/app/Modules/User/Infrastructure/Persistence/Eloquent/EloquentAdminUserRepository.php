@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\User\Infrastructure\Persistence\Eloquent;
 
 use App\Modules\User\Domain\Entities\User;
-use App\Modules\User\Domain\Enums\UserRole;
+use App\Shared\Enums\UserRole;
 use App\Modules\User\Domain\Enums\UserStatus;
 use App\Modules\User\Domain\Repositories\AdminUserRepositoryInterface;
 use App\Modules\User\Infrastructure\Persistence\Models\UserModel;

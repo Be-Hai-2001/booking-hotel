@@ -21,8 +21,8 @@ class Hotel
         private ?string $diaChiSnapshot = null,
         private ?string $diaChiChiTiet = null,
         private ?string $sdt = null,
-        private float $ratingTB = 0.0,
-        private bool $isFloatingHotel = false,
+        private ?float $ratingTB = 0.0,
+        private ?bool $isFloatingHotel = false,
         private HotelStatus $status = HotelStatus::PENDING,
     ) {
         // Validation nghiệp vụ: Đảm bảo dữ liệu Entity luôn hợp lệ ngay từ lúc tạo bất kể nhận từ đâu (Request, Queue Job, Command, Seeder)

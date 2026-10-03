@@ -15,7 +15,7 @@ interface HotelRepositoryInterface
     /**
      * Tìm khách sạn theo ID
      */
-    public function findById(HotelId $id): ?Hotel;
+    public function findById(HotelId $id);
 
     /**
      * Lưu thông tin khách sạn (Tự động chèn mới nếu chưa có ID, hoặc cập nhật nếu đã có ID)

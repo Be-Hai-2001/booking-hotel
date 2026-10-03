@@ -1,7 +1,7 @@
 <?php
 
 use App\Modules\Hotel\Domain\Enums\HotelStatus;
-use App\Modules\User\Domain\Enums\UserRole;
+use App\Shared\Enums\UserRole;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

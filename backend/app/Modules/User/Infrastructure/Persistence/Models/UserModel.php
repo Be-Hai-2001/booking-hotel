@@ -2,7 +2,7 @@
 
 namespace App\Modules\User\Infrastructure\Persistence\Models;
 
-use App\Modules\User\Domain\Enums\UserRole;
+use App\Shared\Enums\UserRole;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 

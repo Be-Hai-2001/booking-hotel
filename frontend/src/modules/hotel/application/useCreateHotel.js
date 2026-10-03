@@ -3,7 +3,6 @@ import { hotelEnums } from "../presentation/constants/hotelEnums";
 import { publicApi } from "../../../shared/api/publicApi";
 import hotelApi from "../infrastructure/hotelApi";
 import { useNavigate } from 'react-router-dom';
-import { API_ENDPOINTS } from "../../../shared/api/endpoints";
 import { ROUTE } from "../../../shared/api/route";
 
 export const useCreateHotel = () => {
@@ -27,7 +26,9 @@ export const useCreateHotel = () => {
     const fetchCities = async () => {
         try {
             const res = await publicApi.getCities();
+
             setCityList(res.data || res); // Lưu vào state
+
             setFormData((prev) => ({ ...prev, [hotelEnums.Fields.WARD_ID]: '' }));
         } catch (error) {
             console.error("Lỗi fetch cities:", error);
@@ -74,7 +75,7 @@ export const useCreateHotel = () => {
 
         try {
             // 2. Gửi request lên serve
-            const repo = await hotelApi.createHotel(formData);
+            const repo = await hotelApi.store(formData);
 
             // 3. Nhận thông báo trả về từ serve
             if (repo?.message === 'SUCCESS')

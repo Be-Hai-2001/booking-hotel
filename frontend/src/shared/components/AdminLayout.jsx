@@ -8,9 +8,11 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PeopleIcon from '@mui/icons-material/People';
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { Avatar, Box, Divider, Grid, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Alert, Avatar, Box, Divider, Grid, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip, Typography } from '@mui/material';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { lightBlue } from "@mui/material/colors";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { AlertCustom } from '../../shared/components/AlertCustom';
 
 export const HEADER_HEIGHT = 80;
 
@@ -145,6 +147,12 @@ export const Topbar = ({ title }) => {
                     }}
                     size={{ md: 7 }}
                 >
+                    {/* <Tooltip title="Quay lại" arrow>
+                        <IconButton onClick={() => Navigate(-1)}>
+                            <ArrowBackIcon />
+                        </IconButton>
+                    </Tooltip> */}
+
                     <Typography
                         variant="h6"
                         sx={{
@@ -191,8 +199,15 @@ export const Content = ({
 
 // Hiển thị layout chung của admin
 export const AdminLayout = ({
-    children, title
+    children,
+    title,
+    alert = {
+        message: '',
+        timer: 0,
+        alertKey: 0
+    }
 }) => {
+
     return (
         <Grid container sx={{ display: 'flex', width: '100%' }}>
             {/* Thanh Sidebar - menu chức năng trong trang admin (bên trái) */}
@@ -202,9 +217,17 @@ export const AdminLayout = ({
             <Grid
                 size={{ xs: 6, md: 10 }}
             >
+
                 <Topbar title={title} />
 
+
                 <Content children={children} />
+
+                <AlertCustom
+                    timer={alert.timer}
+                    message={alert.message}
+                    alertKey={alert.alertKey}
+                />
             </Grid>
         </Grid >
     );

@@ -2,6 +2,7 @@
 
 use App\Modules\Dashboard\Presentation\Http\Controllers\DashboardController;
 use App\Modules\Hotel\Presentation\Controller\HotelController;
+use App\Modules\Hotel\Presentation\Controller\HotelImageController;
 use App\Modules\Location\Presentation\Controllers\CityController;
 use App\Modules\Location\Presentation\Controllers\WardController;
 use App\Modules\User\Presentation\Http\Controllers\Admin\AdminAuthController;
@@ -23,6 +24,8 @@ Route::prefix('dashboard')->group(function () {
 Route::prefix('hotels')->group(function () {
     Route::get('/', [HotelController::class, 'list'])->name('hotels.list');
     Route::get('/{hotel_id}', [HotelController::class, 'show'])->name('hotels.detail');
+
+    Route::get('/{id}/images', [HotelImageController::class, 'list'])->name('list_img_hotel');
 });
 
 
@@ -40,15 +43,31 @@ Route::prefix('partner')->group(function () {
 
         // Quản lý Khách sạn (Partner)
         Route::prefix('hotels')->name('hotels.')->group(function () {
+
+            // -- HotelController
             Route::get('/', [HotelController::class, 'getMyHotels'])->name('index'); // partner/hotels
             Route::post('/', [HotelController::class, 'store'])->name('store');       // partner/hotels
             Route::get('/{id}', [HotelController::class, 'show'])->name('show');       // partner/hotels/{id}
             Route::put('/{id}', [HotelController::class, 'update'])->name('update');   // partner/hotels/{id}
             Route::delete('/{id}', [HotelController::class, 'destroy'])->name('destroy'); // partner/hotels/{id}
+
+            // -- HotelImageController
+            Route::post('/{id}/images', [HotelImageController::class, 'store'])->name('upload_img_hotel'); // partner/hotels/{id}
         });
     });
 });
 
 // route public
-Route::get('/location/cities', [CityController::class, 'list']);
-Route::get('/location/wards/{city_id}', [WardController::class, 'getListByCityId']);
+Route::prefix('location')->group(function () {
+
+    // -- Thành phố
+    Route::prefix('cities')->group(function () {
+        Route::get('/', [CityController::class, 'list']);
+    });
+
+    // -- phường/xã
+    Route::prefix('wards')->group(function () {
+        Route::get('/city/{city_id}', [WardController::class, 'getListByCityId']);
+        Route::get('/{ward_id}', [WardController::class, 'getListByWardId']);
+    });
+});

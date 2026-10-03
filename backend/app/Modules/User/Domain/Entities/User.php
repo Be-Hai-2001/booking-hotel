@@ -2,7 +2,7 @@
 
 namespace App\Modules\User\Domain\Entities;
 
-use App\Modules\User\Domain\Enums\UserRole;
+use App\Shared\Enums\UserRole;
 use App\Modules\User\Domain\Enums\UserStatus;
 
 class User

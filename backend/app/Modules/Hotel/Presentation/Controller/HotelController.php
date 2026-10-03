@@ -10,7 +10,7 @@ use App\Modules\Hotel\Application\Services\HotelApplicationService;
 use App\Modules\Hotel\Domain\Entities\Hotel;
 use App\Modules\Hotel\Domain\ValueObjects\HotelId;
 use App\Modules\Hotel\Presentation\Http\Requests\StoreHotelRequest;
-use App\Modules\User\Domain\Enums\UserRole;
+use App\Shared\Enums\UserRole;
 use Exception;
 use Illuminate\Http\Request;
 

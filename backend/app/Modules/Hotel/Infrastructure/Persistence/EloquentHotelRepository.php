@@ -14,8 +14,7 @@ class EloquentHotelRepository implements HotelRepositoryInterface
     #[Override]
     public function findById(HotelId $id): ?Hotel
     {
-        $model = HotelModel::query()->find($id);
-
+        $model = HotelModel::query()->find($id->value());
         return $model ? $this->toEntity($model) : null;
     }
 
