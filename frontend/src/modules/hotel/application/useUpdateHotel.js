@@ -190,7 +190,8 @@ export const useUpdateHotel = () => {
                 ...pre,
                 message: MESSAGES.VI.HOTEL.IMAGE_UPLOAD_SUCCESS,
                 timer: 5,
-                alertKey: Math.random()
+                alertKey: Math.random(),
+                severity: 'success'
             }));
     }
 
@@ -236,7 +237,8 @@ export const useUpdateHotel = () => {
                     ...pre,
                     message: MESSAGES.VI.HOTEL.IMAGE_DELETE_SUCCESS,
                     timer: 5,
-                    alertKey: Math.random()
+                    alertKey: Math.random(),
+                    severity: 'success'
                 })
             );
 
