@@ -7,9 +7,9 @@ use App\Modules\Hotel\Domain\ValueObjects\HotelId;
 
 interface HotelImageRepositoryInterface
 {
-    public function save(HotelImage $hotelImage): HotelImage;
+    public function save(HotelImage $hotelImage): array;
 
-    public function destroy(int $hotelImageId);
+    public function destroyMany(array $images): bool;
 
     public function listByHotelId(array $filter, HotelId $id): array;
 

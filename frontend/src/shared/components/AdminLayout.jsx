@@ -204,7 +204,8 @@ export const AdminLayout = ({
     alert = {
         message: '',
         timer: 0,
-        alertKey: 0
+        alertKey: 0,
+        severity: 'success'
     }
 }) => {
 
@@ -227,6 +228,7 @@ export const AdminLayout = ({
                     timer={alert.timer}
                     message={alert.message}
                     alertKey={alert.alertKey}
+                    severity={alert.severity}
                 />
             </Grid>
         </Grid >

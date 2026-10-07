@@ -24,6 +24,16 @@ export const hotelApi = {
     // Cập nhật khách sạn
     update: async (hotel_id, data) => {
         return await axiosClient.put(API_ENDPOINTS.PARTNER.HOTEL.UPDATE(hotel_id), data);
+    },
+
+    // -- Thêm mới danh sách ảnh cho khách sạn
+    storeHotelImages: async (hotel_id, data) => {
+        return await axiosClient.post(API_ENDPOINTS.PARTNER.IMAGES.CREATE_LIST(hotel_id), data);
+    },
+
+    // -- Xóa danh sách ảnh cho khách sạn
+    deleteHotelImages: async (data) => {
+        return await axiosClient.delete(API_ENDPOINTS.PARTNER.IMAGES.DELETE_LIST, data);
     }
 
     // Xóa khách sạn

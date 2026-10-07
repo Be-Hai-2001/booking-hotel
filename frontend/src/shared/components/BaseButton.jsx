@@ -2,7 +2,8 @@ import React from "react";
 import { Button } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 
-export const AddButton = ({
+export const BaseButton = ({
+    color = "primary",
     handleClick,
     loading = false,
     endIcon = <AddIcon />,
@@ -18,7 +19,7 @@ export const AddButton = ({
 
     return (
         <Button
-            color="primary"
+            color={color}
             onClick={handleClick}
             endIcon={endIcon}
             loading={loading}
@@ -32,4 +33,4 @@ export const AddButton = ({
     );
 }
 
-export default AddButton;
+export default BaseButton;

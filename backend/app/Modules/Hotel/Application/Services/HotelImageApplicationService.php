@@ -51,4 +51,10 @@ class HotelImageApplicationService
             throw new \DomainException('Bạn không có quyền với khách sạn này', 403);
         }
     }
+
+    public function destroyMany($images = []): bool
+    {
+
+        return $this->hotelImageRepositoryInterface->destroyMany($images);
+    }
 }

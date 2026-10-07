@@ -13,6 +13,7 @@ export const MESSAGES = {
 
             IMAGE_UPLOAD_SUCCESS: 'Tải ảnh khách sạn lên thành công!',
             IMAGE_DELETE_SUCCESS: 'Xóa ảnh thành công!',
+            IMAGE_DELETE_EMPTY: 'Vui lòng chọn ít nhất một ảnh để xóa',
         },
     },
     EN: {

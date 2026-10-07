@@ -22,6 +22,14 @@ axiosClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+// -- Cấu hình gửi request dạng FormData mà không có headers["Content-Type"] (up file)
+axiosClient.interceptors.request.use((config) => {
+  if (config.data instanceof FormData) {
+    delete config.headers["Content-Type"];
+  }
+  return config;
+});
+
 // Interceptor cho Response (Tùy chọn nâng cao)
 axiosClient.interceptors.response.use(
   (response) => response.data, // Tự bọc data trả về

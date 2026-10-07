@@ -4,10 +4,22 @@ import HotelForm from "./components/HotelForm";
 import ImagesForm from "./components/ImagesForm";
 import useUpdateHotel from "../../application/useUpdateHotel";
 import { hotelEnums } from "../constants/hotelEnums";
-import AddButton from "../../../../shared/components/AddButton";
+import BaseButton from "../../../../shared/components/BaseButton";
 import { Box, Typography } from "@mui/material";
 import UpdateIcon from '@mui/icons-material/Update';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { UploadFile } from '../../../../shared/components/UploadFile';
+
+/**
+ * 
+ * @param: 
+ *  - alert : prop cho component thông báo
+        { message: Nội dung thông báo (Thêm mới thành công | ... )
+         timer: Thời gian hiển thị cái thông báo này (s)
+         alertKey: key của compoent Alert
+        }
+ *     
+ */
 
 export const UpdateHotelPartnerPage = () => {
 
@@ -29,8 +41,18 @@ export const UpdateHotelPartnerPage = () => {
         handleSubmit,
         ward,
         loading,
-        images,
-        alert = { message: '', timer: 0, alertKey: {} }
+        images, // Danh sách hình ảnh
+        alert = { message: '', timer: 0, alertKey: {} },
+        // handdleUploadFile,
+        openViewUpload,
+        openUpload = false,
+        id, // Khoá chính cho bảng hotel
+
+        handleDeleteImage,
+        handleSubmitDeleteImage,
+        handleChangeImagesChild,
+        imagesDelete
+
     } = useUpdateHotel();
 
     return (
@@ -38,6 +60,7 @@ export const UpdateHotelPartnerPage = () => {
             <AdminLayout
                 children={
                     <Box>
+                        {/* Infomation */}
                         <Box>
                             <Typography
                                 key={'info'}
@@ -62,7 +85,7 @@ export const UpdateHotelPartnerPage = () => {
                                 handleAutocompleteChange={handleAutocompleteChange}
                                 ward={ward}
                                 buttonSubmit={
-                                    <AddButton
+                                    <BaseButton
                                         handleClick={handleSubmit}
                                         loading={loading}
                                         endIcon={<UpdateIcon />}
@@ -71,6 +94,8 @@ export const UpdateHotelPartnerPage = () => {
                                 }
                             />
                         </Box>
+
+                        {/* list image */}
                         <Box
                             sx={{
                                 marginTop: "3rem"
@@ -88,17 +113,50 @@ export const UpdateHotelPartnerPage = () => {
                                 }}>
                                 Danh sách hìn ảnh
                             </Typography>
+
                             <ImagesForm
+                                imagesDelete={imagesDelete}
+                                onDelete={(id) => handleDeleteImage(id)}
                                 images={images}
                                 button={
-                                    <AddButton
-                                        content="Upload_File"
-                                        endIcon={<CloudUploadIcon />}
-                                    />
+                                    <>
+                                        <BaseButton
+                                            sx={{
+                                                borderRadius: '0',
+                                                fontWeight: 'bold',
+                                                marginRight: '10px'
+                                            }}
+                                            handleClick={handleSubmitDeleteImage}
+                                            content="Cập nhật"
+                                            endIcon={<UpdateIcon />}
+                                        />
+
+                                        <BaseButton
+                                            sx={{
+                                                borderRadius: '0',
+                                                fontWeight: 'bold',
+                                                background: '#eee',
+                                                color: 'black'
+                                            }}
+                                            handleClick={openViewUpload}
+                                            content="Upload_File"
+                                            endIcon={<CloudUploadIcon />}
+                                        />
+                                    </>
                                 }
                             />
                         </Box>
 
+                        {
+                            openUpload &&
+                            <UploadFile
+                                hotelId={id}
+                                open={openUpload}
+                                onClose={openViewUpload}
+                                onUploaded={handleChangeImagesChild}
+
+                            />
+                        }
                     </Box>
                 }
                 title="Chỉnh sửa khách sạn"

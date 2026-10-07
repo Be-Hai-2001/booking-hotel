@@ -9,7 +9,7 @@ use Illuminate\Validation\Rule;
 -> Validate request từ client truyền vào
 */
 
-class UploadImagesRequest   extends FormRequest
+class UploadImagesRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -20,7 +20,7 @@ class UploadImagesRequest   extends FormRequest
     {
         return [
             'images'   => ['required', 'array', 'min:1', 'max:10'],
-            'images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            // 'images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
         ];
     }
 
@@ -29,7 +29,7 @@ class UploadImagesRequest   extends FormRequest
         return [
             'images.required' => 'Không tìm thấy ảnh.!',
             'images.array' => 'Truyền sai dữ liệu (images is array)',
-            'images.*.mimes' => 'Định dạng không được hỗ trợ (jpg,jpeg,png,webp)',
+            // 'images.*.mimes' => 'Định dạng không được hỗ trợ (jpg,jpeg,png,webp)',
         ];
     }
 }

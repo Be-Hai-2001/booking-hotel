@@ -25,9 +25,15 @@ export const API_ENDPOINTS = {
 
         HOTEL: {
             LIST: '/partner/hotels',                    // GET: Lấy danh sách khách sạn của partner
-            CREATE: '/partner/hotel',                   // POST: Tạo mới khách sạn
+            CREATE: '/partner/hotels',                   // POST: Tạo mới khách sạn
             UPDATE: (id) => `/partner/hotels/${id}`,    // PUT/PATCH: Cập nhật
             DELETE: (id) => `/partner/hotels/${id}`,    // DELETE: Xóa khách sạn
+        },
+
+        IMAGES: {
+            CREATE_LIST: (hotel_id) => `partner/hotels/${hotel_id}/images`,
+            DELETE_LIST: 'partner/hotels/images'
+
         },
 
         DASHBOARD: '/partner/dashboard',

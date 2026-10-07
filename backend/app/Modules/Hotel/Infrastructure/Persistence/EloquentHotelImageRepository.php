@@ -11,7 +11,7 @@ use Override;
 class EloquentHotelImageRepository implements HotelImageRepositoryInterface
 {
     #[Override]
-    public function save(HotelImage $hotelImage): HotelImage
+    public function save(HotelImage $hotelImage): array
     {
         $model = HotelImageModel::create([
             'hotel_id'   => $hotelImage->getHotelId(),
@@ -20,19 +20,15 @@ class EloquentHotelImageRepository implements HotelImageRepositoryInterface
             'is_cover'   => $hotelImage->getIsCover(),
         ]);
 
-        return new HotelImage(
-            id: $model->id,
-            hotelId: $model->hotel_id,
-            imagePath: $model->image_path,
-            sortOrder: $model->sort_order,
-            isCover: (bool) $model->is_cover,
-        );
+        // dd($model->toArray());
+        return $model->toArray();
     }
 
     #[Override]
-    public function destroy(int $hotelImageId)
+    public function destroyMany(array $images): bool
     {
-        throw new \Exception('Not implemented');
+        // $model = HotelImageModel::destroy($images);
+        return HotelImageModel::destroy($images);
     }
 
     public function listByHotelId(array $filter, HotelId $hotelId): array

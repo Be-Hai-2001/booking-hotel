@@ -1,6 +1,6 @@
 import React from "react";
 import { Box } from '@mui/material';
-import AddButton from "../../../../../shared/components/AddButton";
+import BaseButton from "../../../../../shared/components/BaseButton";
 import { DataGrid } from "../../../../../shared/components/DataGrid";
 import { ROUTE } from "../../../../../shared/api/route";
 
@@ -20,7 +20,7 @@ export const HotelDataGrid = ({
             {canCreate
                 ? (
                     <Box sx={{ textAlign: 'end', marginBottom: '15px' }}>
-                        <AddButton
+                        <BaseButton
                             handleClick={() => navigate(ROUTE.PARTNER.HOTEL.CREATE)}
                         />
                     </Box>

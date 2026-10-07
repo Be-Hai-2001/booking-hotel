@@ -44,15 +44,16 @@ Route::prefix('partner')->group(function () {
         // Quản lý Khách sạn (Partner)
         Route::prefix('hotels')->name('hotels.')->group(function () {
 
+            // -- HotelImageController
+            Route::post('/{id}/images', [HotelImageController::class, 'store'])->name('upload_img_hotel'); // partner/hotels/{id}
+            Route::delete('/images', [HotelImageController::class, 'deleteList'])->name('delete_img_hotel'); // partner/hotels/{id}
+
             // -- HotelController
             Route::get('/', [HotelController::class, 'getMyHotels'])->name('index'); // partner/hotels
             Route::post('/', [HotelController::class, 'store'])->name('store');       // partner/hotels
             Route::get('/{id}', [HotelController::class, 'show'])->name('show');       // partner/hotels/{id}
             Route::put('/{id}', [HotelController::class, 'update'])->name('update');   // partner/hotels/{id}
             Route::delete('/{id}', [HotelController::class, 'destroy'])->name('destroy'); // partner/hotels/{id}
-
-            // -- HotelImageController
-            Route::post('/{id}/images', [HotelImageController::class, 'store'])->name('upload_img_hotel'); // partner/hotels/{id}
         });
     });
 });

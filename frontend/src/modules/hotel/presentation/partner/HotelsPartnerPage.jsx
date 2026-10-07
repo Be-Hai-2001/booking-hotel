@@ -8,7 +8,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import BuildIcon from '@mui/icons-material/Build';
 import { Box, Chip, IconButton, Tooltip } from '@mui/material';
-import AddButton from '../../../../shared/components/AddButton';
+import BaseButton from '../../../../shared/components/BaseButton';
 import { useNavigate } from 'react-router-dom';
 import hotelApi from '../../infrastructure/hotelApi';
 import { ROUTE } from '../../../../shared/api/route';

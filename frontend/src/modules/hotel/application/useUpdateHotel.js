@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { hotelEnums } from "../presentation/constants/hotelEnums";
 import { publicApi } from "../../../shared/api/publicApi";
 import hotelApi from "../infrastructure/hotelApi";
@@ -18,9 +18,15 @@ export const useUpdateHotel = () => {
     const [cityList, setCityList] = useState([]);
     const [wardList, setWardList] = useState([]);
     const [images, setImages] = useState([]);
+    const [imagesDelete, setImagesDelete] = useState([]);
+
+
+
     const [loading, setLoading] = useState(false);
     const [ward, setWard] = useState({});
     const [alert, setAlert] = useState({ message: '', timer: 0, alertKey: {} });
+    const [openUpload, setOpenUpload] = useState(false);
+
 
     // -- Lấy id hotel trên url
     const { id } = useParams();
@@ -148,14 +154,14 @@ export const useUpdateHotel = () => {
             const { success, data } = await hotelApi.update(id, formData);
 
             if (success) {
-
                 setAlert(
                     (pre) => ({
                         ...pre,
                         message: MESSAGES.VI.HOTEL.UPDATE_SUCCESS,
                         timer: 5,
                         alertKey: Math.random()
-                    }));
+                    })
+                );
             }
 
         } catch (error) {
@@ -165,8 +171,86 @@ export const useUpdateHotel = () => {
         }
     }
 
-    const handdleUploadFile = async () => {
+    // -- funtion lấy dữ liệu callback từ dialog con cập nhật hình ảnh
+    const handleChangeImagesChild = (newImages) => {
 
+        // -- Đã thêm ảnh thành công thì sẽ đóng cái dialog lại
+        setOpenUpload(false);
+
+        console.log('newimg', newImages);
+        setImages((prev) => {
+            return [
+                ...newImages,
+                ...prev
+            ]
+        });
+
+        setAlert(
+            (pre) => ({
+                ...pre,
+                message: MESSAGES.VI.HOTEL.IMAGE_UPLOAD_SUCCESS,
+                timer: 5,
+                alertKey: Math.random()
+            }));
+    }
+
+    // -- Lấy danh sách ảnh càn xóa
+    const handleDeleteImage = useCallback((id) => {
+        setImagesDelete((prev) =>
+            prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+        );
+    }, []);
+
+    // -- Xóa hình ảnh ( Xóa cứng )
+    const handleSubmitDeleteImage = async () => {
+
+        // -- Kiểm tra mảng có dữ liệu hay không
+        if (imagesDelete.length === 0) {
+            setAlert(
+                (pre) => ({
+                    ...pre,
+                    message: MESSAGES.VI.HOTEL.IMAGE_DELETE_EMPTY,
+                    timer: 5,
+                    alertKey: Math.random(),
+                    severity: 'warning'
+                })
+            );
+
+            return;
+        }
+
+        try {
+            const data = {
+                images: imagesDelete
+            }
+
+            // Gọi API xóa danh sách ảnh
+            await hotelApi.deleteHotelImages({ data });
+
+            // -- Cập nhật lại danh sách hình ảnh
+            setImages((prev) => prev.filter((img) => !imagesDelete.includes(img.id)));
+
+            // -- Hiển thị thông báo xóa thành công
+            setAlert(
+                (pre) => ({
+                    ...pre,
+                    message: MESSAGES.VI.HOTEL.IMAGE_DELETE_SUCCESS,
+                    timer: 5,
+                    alertKey: Math.random()
+                })
+            );
+
+            // -- Trả về danh sách xóa rỗng
+            setImagesDelete([]);
+
+        } catch (error) {
+            console.log('error', error);
+        }
+
+    }
+
+    const openViewUpload = () => {
+        setOpenUpload(!openUpload);
     }
 
     return {
@@ -179,9 +263,17 @@ export const useUpdateHotel = () => {
         loading,
         handleSubmit,
         ward,
-        handdleUploadFile,
+        // handdleUploadFile,
         images,
-        alert
+        alert,
+        openViewUpload,
+        openUpload,
+        handleChangeImagesChild,
+        id,
+
+        handleDeleteImage,
+        handleSubmitDeleteImage,
+        imagesDelete
     }
 
 }
